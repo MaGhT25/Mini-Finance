@@ -1,6 +1,60 @@
+        
+        
         <?php
+        session_start();
         include('partials/header.php');
         ?>
+
+
+        
+<?php
+if (isset($_SESSION['message'])) {
+    echo '<div style="
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1050;
+        width: 80%;
+        max-width: 500px;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 16px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    ">'.htmlspecialchars($_SESSION['message']).'</div>';
+    unset($_SESSION['message']); 
+}
+
+if (isset($_SESSION['error'])) {
+    echo '<div style="
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1050;
+        width: 80%;
+        max-width: 500px;
+        padding: 15px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 16px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    ">'.htmlspecialchars($_SESSION['error']).'</div>';
+    unset($_SESSION['error']);
+}
+?>
+
+
+
+
+
 
         <div class="container-fluid">
             <div class="row">
@@ -39,6 +93,13 @@
                                 <a class="nav-link" href="help-center.php">
                                     <i class="bi-question-circle me-2"></i>
                                     Help Center
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="login.php">
+                                    <i class="bi-person-circle me-2"></i>
+                                    Login
                                 </a>
                             </li>
 

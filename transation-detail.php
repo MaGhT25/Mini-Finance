@@ -41,6 +41,12 @@
                                     Help Center
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="login.php">
+                                    <i class="bi-question-circle me-2"></i>
+                                    Login
+                                </a>
+                            </li>
 
                             <li class="nav-item featured-box mt-lg-5 mt-4 mb-4">
                                 <img src="images/credit-card.png" class="img-fluid" alt="">

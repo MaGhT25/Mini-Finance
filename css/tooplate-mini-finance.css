@@ -133,6 +133,10 @@ strong {
 /*---------------------------------------
   SECTION               
 -----------------------------------------*/
+
+
+
+
 .main-wrapper {
   background: var(--section-bg-color);
   min-height: calc(100vh - 65px);
