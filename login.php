@@ -11,7 +11,7 @@
         <h2>Log in</h2>
 
 
-        <form action="_inc/functions.php" method="POST">
+        <form action="_inc/Auth.php" method="POST">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="name" required>

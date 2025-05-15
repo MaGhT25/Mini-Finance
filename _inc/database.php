@@ -1,13 +1,26 @@
 <?php
-$host = 'localhost';
-$db_name = 'mini_finance'; // Замените на имя вашей базы данных
-$username = 'root';        // Замените на имя пользователя MySQL
-$password = '';            // Замените на пароль (если используется XAMPP, оставьте пустым)
+class Database {
+    private string $host = 'localhost';
+    private string $db_name = 'mini_finance';
+    private string $username = 'root';
+    private string $password = '';
+    private ?PDO $connection = null;
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    public function connect(): PDO {
+        if ($this->connection === null) {
+            try {
+                $dsn = "mysql:host={$this->host};dbname={$this->db_name}";
+                $this->connection = new PDO($dsn, $this->username, $this->password);
+                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("Connection failed: " . $e->getMessage());
+            }
+        }
+
+        return $this->connection;
+    }
 }
+
+$db = new Database();
+$pdo = $db->connect();
 ?>

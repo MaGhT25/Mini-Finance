@@ -55,7 +55,7 @@
                             </li>
 
                             <li class="nav-item border-top mt-auto pt-2">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="login.php">
                                     <i class="bi-box-arrow-left me-2"></i>
                                     Logout
                                 </a>
@@ -89,14 +89,14 @@
                                         <p class="d-flex flex-wrap mb-2">
                                             <strong>Name:</strong>
 
-                                            <span>Thomas Edison</span>
+                                            <span>Maksym Dohomaz</span>
                                         </p>
 
                                         <p class="d-flex flex-wrap mb-2">
                                             <strong>Email:</strong>
                                             
                                             <a href="#">
-                                                thomas@site.com
+                                                maksymbg07@site.com
                                             </a>
                                         </p>
 
@@ -111,7 +111,7 @@
                                         <p class="d-flex flex-wrap mb-2">
                                             <strong>Birthday:</strong>
 
-                                            <span>March 5, 1992</span>
+                                            <span>March 8, 2007</span>
                                         </p>
 
                                         <p class="d-flex flex-wrap">

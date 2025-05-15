@@ -2,12 +2,15 @@
 session_start();
 include('partials/header.php');
 
-// Подключение к базе данных и классу Transaction
 require '_inc/database.php';
 require '_inc/Transaction.php';
+require '_inc/TransactionTable.php';
 
 $transaction = new Transaction($pdo);
 $transactions = $transaction->getAllTransactions();
+$currentBalance = $transaction->calculateRunningBalance();
+
+$table = new TransactionTable($transactions);
 
 if (isset($_SESSION['message'])) {
     echo '<div style="
@@ -98,7 +101,7 @@ if (isset($_SESSION['error'])) {
                         <a class="btn custom-btn" href="#">Upgrade</a>
                     </li>
                     <li class="nav-item border-top mt-auto pt-2">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="login.php">
                             <i class="bi-box-arrow-left me-2"></i>
                             Logout
                         </a>
@@ -110,14 +113,14 @@ if (isset($_SESSION['error'])) {
         <main class="main-wrapper col-md-9 ms-sm-auto py-4 col-lg-9 px-md-4 border-start">
             <div class="title-group mb-3">
                 <h1 class="h2 mb-0">Overview</h1>
-                <small class="text-muted">Hello Thomas, welcome back!</small>
+                <small class="text-muted">Hello Maksym, welcome back!</small>
             </div>
 
             <div class="row my-4">
                 <div class="col-lg-7 col-12">
                     <div class="custom-block custom-block-balance">
                         <small>Your Balance</small>
-                        <h2 class="mt-2 mb-3">$254,800</h2>
+                        <h2 class="mt-2 mb-3">$<?= number_format($currentBalance, 2) ?></h2>
                         <div class="custom-block-numbers d-flex align-items-center">
                             <span>****</span>
                             <span>****</span>
@@ -131,16 +134,9 @@ if (isset($_SESSION['error'])) {
                             </div>
                             <div class="ms-auto">
                                 <small>Card Holder</small>
-                                <p>Thomas</p>
+                                <p>Maksym</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="custom-block bg-white">
-                        <h5 class="mb-4">History</h5>
-                        <div id="pie-chart"></div>
-                    </div>
-                    <div class="custom-block bg-white">
-                        <div id="chart"></div>
                     </div>
                     <div class="custom-block custom-block-exchange">
                         <h5 class="mb-4">Exchange Rate</h5>
@@ -161,7 +157,6 @@ if (isset($_SESSION['error'])) {
                                 <h6>1.0821</h6>
                             </div>
                         </div>
-                        <!-- Остальные валюты -->
                     </div>
                 </div>
 
@@ -173,12 +168,12 @@ if (isset($_SESSION['error'])) {
                         </div>
                         <p class="d-flex flex-wrap mb-2">
                             <strong>Name:</strong>
-                            <span>Thomas Edison</span>
+                            <span>Maksym Bohomaz</span>
                         </p>
                         <p class="d-flex flex-wrap mb-2">
                             <strong>Email:</strong>
                             <a href="#">
-                                thomas@site.com
+                                maksymbg07@site.com
                             </a>
                         </p>
                         <p class="d-flex flex-wrap mb-0">
@@ -189,7 +184,6 @@ if (isset($_SESSION['error'])) {
                         </p>
                     </div>
 
-                    <!-- Таблица с транзакциями -->
                     <div class="custom-block custom-block-transations">
                         <h5 class="mb-4">Recent Transactions</h5>
                         <div class="table-responsive">
@@ -205,25 +199,7 @@ if (isset($_SESSION['error'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($transaction['id']) ?></td>
-                                            <td><?= ucfirst(htmlspecialchars($transaction['type'])) ?></td>
-                                            <td><?= htmlspecialchars($transaction['description']) ?></td>
-                                            <td>
-                                                <?php if ($transaction['type'] === 'income'): ?>
-                                                    <span class="text-success">+$<?= htmlspecialchars($transaction['amount']) ?></span>
-                                                <?php else: ?>
-                                                    <span class="text-danger">-$<?= htmlspecialchars($transaction['amount']) ?></span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?= htmlspecialchars($transaction['created_at']) ?></td>
-                                            <td>
-                                                <a href="edit_transaction.php?id=<?= $transaction['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
-                                                <a href="delete_transaction.php?id=<?= $transaction['id'] ?>" class="btn btn-sm btn-danger">Delete</a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                <?= $table->render(); ?>
                                 </tbody>
                             </table>
                         </div>

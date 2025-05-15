@@ -1,28 +1,48 @@
 <?php
 ob_start();
 session_start();
-include('partials/header.php');
+
+require 'partials/header.php';
 require '_inc/database.php';
 require '_inc/Transaction.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $type = $_POST['type'];
-    $description = $_POST['description'];
-    $amount = $_POST['amount'];
+class TransactionADD {
+    private PDO $pdo;
 
-    $transaction = new Transaction($pdo);
-    if ($transaction->addTransaction($type, $description, $amount)) {
-        $_SESSION['message'] = "Transaction added successfully!";
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
+    }
 
+    public function handleRequest(): void {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $type = $_POST['type'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $amount = $_POST['amount'] ?? '';
+
+            $transaction = new Transaction($this->pdo);
+
+            if ($transaction->addTransaction($type, $description, $amount)) {
+                $_SESSION['message'] = "Transaction added successfully!";
+                $this->redirect("index.php");
+            } else {
+                $_SESSION['error'] = "Failed to add transaction.";
+            }
+        }
+    }
+
+    private function redirect(string $url): void {
         ob_clean();
-        header("Location: index.php");
+        header("Location: $url");
         exit();
-    } else {
-        $_SESSION['error'] = "Failed to add transaction.";
     }
 }
+
+$controller = new TransactionADD($pdo);
+$controller->handleRequest();
+
 ob_end_flush();
 ?>
+
 
 <div class="container mt-5">
     <h1>Add New Transaction</h1>
